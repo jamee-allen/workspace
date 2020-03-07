@@ -1,17 +1,17 @@
-import spotipy
+import spotipy, imp, requests, os, dotenv, base64
 from bottle import route, run, request
 from spotipy import oauth2
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
 from dotenv import load_dotenv
 
-load.dotenv()
+load_dotenv()
 PORT_NUMBER = 8080
-SPOTIPY_CLIENT_ID = 'a9fe47dda5494415bed46956b1e5ba4d'
-SPOTIPY_CLIENT_SECRET = '348e4a7443d049a4bd48edbffefea663'
 SPOTIPY_REDIRECT_URI = 'http://localhost:8080'
 SCOPE = 'user-library-read'
 CACHE = '.spotipyoauthcache'
+spotify_client = os.getenv("SPOTIPY_CLIENT_ID")
+spotify_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
 
 sp_oauth = oauth2.SpotifyOAuth( SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET,SPOTIPY_REDIRECT_URI,scope=SCOPE,cache_path=CACHE )
 
@@ -20,6 +20,25 @@ token = util.oauth2.SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID, client
 
 cache_token = token.get_access_token()
 sp = spotipy.Spotify(cache_token)
+
+#Get code
+
+
+#Get auth token
+auth_uri = 'https://accounts.spotify.com/api/token'
+authorization = base64.standard_b64encode(spotify_client + ':' + spotify_secret)
+headers = {
+        'Authorization':'Basic ' + authorization
+        }
+data = {
+        'grant_type':'authorization_code',
+        'response_type':'code'}
+
+token = requests.get(auth_uri, headers=headers, data=data)
+
+#Get user ID
+id_uri = 'https://api.spotify.com/v1/me'
+requests.get(id_uri, headers={'Authorization':str(cache_token)})
 
 #Looks for the first 10 tracks by Led Zeplin
 lz_uri = 'spotify:artist:36QJpDe2go2KgaRleHCDTp'
