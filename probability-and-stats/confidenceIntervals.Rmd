@@ -1,0 +1,87 @@
+---
+title: "Prob & Stats Homework 3"
+author: "Jamee Allen"
+date: "November 16, 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**4.15:** Public opinion poll trying to estimate the percentage of registered voters who are "Independent". The desire is +/-3% estimate at 99% confidence. What is n (the required sample size)?
+```{r include = FALSE}
+2.58^2 / (4 * 0.03^2)
+```
+$$n = \frac{2.58^2}{4 \cdot 0.03^2} = 1,849$$
+<br />
+
+**4.17:** At two different branches of a department store, pollsters randomly sampled 100 customers at store 1 and 80 customers at store 2, all on the same day. At store 1, the average amount purchased was \$41.25 per customer with a sample standard deviation of \$24.25. At store 2, the average amount purchased was \$45.75 with a sample standard decuation of \$34.76.     
+<br />      
+<br />
+**a.** Construct a 95% confidence interval for the mean amount purchased per customer in each of the two stores. To do this, I used the following equation to calculate confidence intervals for stores 1 and 2:
+$$\bar{x} +/- interval \cdot \frac{\sigma}{\sqrt{n}}$$
+$$Store1 = 41.25 +/- 1.96 \cdot \frac{24.25}{\sqrt{100}} = [36.497, 46.003]$$
+$$Store2 = 45.75 +/- 1.96 \cdot \frac{34.76}{\sqrt{80}} = [38.132, 53.367]$$
+
+```{r include = FALSE}
+print("Store 1 95% confidence intervals: ")
+41.25 + 1.96 * 24.25/sqrt(100)
+41.25 - 1.96 * 24.25/sqrt(100)
+
+print("Store 2 95% confidence intervals: ")
+45.75 + 1.96 * 34.76/sqrt(80)
+45.75 - 1.96 * 34.76/sqrt(80)
+```
+
+**b.** Construct a 95% confidence interval for the difference between the means of purchases per customer of the two stores. I will use the following equation:
+```{r include=FALSE}
+mew <- 41.25 - 45.75
+error <- sqrt((24.25 ^2)/100 + (34.76 ^2)/80)
+mew - 1.96*error
+mew + 1.96*error
+```
+$$\bar{x}_1 - \bar{x}_2 +/- c \cdot \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$$
+$$=> 41.25 - 45.75 +/- 1.96 \cdot \sqrt{\frac{24.25^2}{100} + \frac{34.76^2}{80}} = [-13.48, 4.48]$$
+
+
+**4.18:** Daily Express Airlines is concerned about the occupancy levels and the on-time performance of their flights.      
+<br />      
+<br />
+**a.** To estimate the occupancy level of their flights, the airline has randomly sampled 20 of its flights. The observed sample mean in the sample is 8.1 unoccupied seats per flights, and the observed sample standard deviation is 3.9 unoccupied seats per flight. Construct a 99% confidence interval for the mean number of unoccupied seats per flight.
+```{r include=FALSE}
+8.1 - 2.58 * (3.9/sqrt(20))
+8.1 + 2.58 * (3.9/sqrt(20))
+```
+$$C.I. = 8.1 +/- 2.58 \cdot \frac{8.1}{\sqrt{3.9}} = [5.85, 10.35]$$
+
+**b.** To estimate the length of delays in flights, the airline has randomly sampled 80 of its flights. The observed sample mean is 15.5 minutes of delat per flight, and the observed sample standard deviation is 6.7 minutes. Construct a 95% confidence interval for the mean delay per flight.
+```{r include=FALSE}
+15.5 - 1.96 * (6.7/sqrt(80))
+15.5 + 1.96 * (6.7/sqrt(80))
+```
+$$C.I. = 15.5 +/- 1.96 \cdot \frac{6.7}{\sqrt{80}} = [14.03, 16.97]$$
+
+**c.** How many flights should the airline sample in order to estimate the mean delay per flight to within 1 minute at the 99% confidence level?
+```{r include=FALSE}
+(2.58^2 * 6.7^2) / 1^2
+```
+$$n = \frac{2.58^2 \cdot 6.7^2}{1^2} = 299$$
+
+**d.** Sample of 80 flights, 60 flights arrived on time, while 20 experienced some delay. Construct a 95% confidence interval for the proportion of flights that arrice on time.
+```{r include=FALSE}
+.75 - 1.96 * sqrt((0.75*0.25)/79)
+.75 + 1.96 * sqrt((0.75*0.25)/79)
+```
+$$C.I. = \hat{P} +/- 1.96 * \sqrt{\frac{0.75 \cdot (1- 0.75)}{80-1}} = [0.65, 0.85]$$
+
+**e.** How many flights should the airline sample in order to predict the proportion of flights that arrive on time to within 2%, at the 95% confidence level?
+```{r include = FALSE}
+1.96^2 / (4 * 0.02^2)
+```
+$$n = \frac{1.96^2}{4 \cdot 0.02^2} = 2,401$$
+
+
+
+
+

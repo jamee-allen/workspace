@@ -1,0 +1,6 @@
+Bins Packed for Problem  0  ....
+Execution time: 00:00:03.9870
+num_ok/num_over:  5003 / 0
+Bins Packed for Problem  1  ....
+Execution time: 00:01:36.5530
+num_ok/num_over:  24993 / 0

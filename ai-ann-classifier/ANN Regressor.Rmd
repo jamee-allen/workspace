@@ -1,0 +1,69 @@
+---
+title: "ANN Regressor"
+author: "Jamee Allen"
+date: "March 18, 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The Code
+
+```
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Import Libraries Section
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+from sklearn import preprocessing
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sknn.mlp import Regressor, Layer
+from sklearn.metrics import mean_squared_error
+import pandas as pd
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Load Data Section
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+wines =    pd.DataFrame.from_csv('C:\Users\Jamee\Google Drive\B School\Artificial Intelligence\Homework\Assignment 2\whitewines.csv', index_col=None)
+wines =    wines.dropna()
+x, y =     wines[wines.columns[0:11]],wines[wines.columns[11]]
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Pretreat Data Section
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+x_MinMax = preprocessing.MinMaxScaler()
+y_MinMax = preprocessing.MinMaxScaler()
+y =        np.array(y).reshape((len(y),1))
+x =        x_MinMax.fit_transform(x)
+y =        y_MinMax.fit_transform(y)
+
+np.random.seed(2018)
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Define Model Section
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+list1 =    ["Rectifier", "Sigmoid", "Tanh", "ExpLin"]
+node1 =    [6, 11, 22, 30]
+mse_list=  []
+
+for activator in list1:
+    for node in node1:
+        winefit = Regressor(
+                layers=[
+                        Layer(activator, units=node),
+                        Layer("Linear")],
+                        learning_rate = 0.02,
+                        random_state = 2018,
+                        n_iter = 100)                    
+        winefit.fit(x_train, y_train)
+        pred_test1 = winefit.predict(x_test)
+        mse_test1 = mean_squared_error(pred_test1, y_test)
+        print activator, node, mse_test1
+        mse_list.append([activator, node, mse_test1])
+
+mse_list.sort(key=lambda x: x[2]); best_value = mse_list[0]
+print "\nThe best model is", best_value
+```
+
+# ANN Regressor Write-Up

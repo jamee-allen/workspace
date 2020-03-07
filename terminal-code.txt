@@ -1,0 +1,30 @@
+env => display the environment
+export HOME=/mnt/c/Users/Jamee   => change home to new directory
+cat /etc/shells => display all the shells you can use
+chsh -s [directory of shell] => change which shell you're using
+which [package] => show where a package is
+~/.zshrc => this is the file where you can edit the Z shell environment
+sudo apt-get update => update applicaitons
+sudo apt-get install [package] => install a package
+
+
+```
+Installing Brew:
+The following steps worked for me:
+
+Clone it from github
+
+git clone https://github.com/Homebrew/linuxbrew.git ~/.linuxbrew
+Open your .bash_profile file using vi ~/.bash_profile
+
+Add these lines
+
+export PATH="$HOME/.linuxbrew/bin:$PATH"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+Then type the following lines in your terminal
+
+export PATH=$HOME/.linuxbrew/bin:$PATH
+hash -r
+Yes, it is done. Type brew in your terminal to check its existence.
+```

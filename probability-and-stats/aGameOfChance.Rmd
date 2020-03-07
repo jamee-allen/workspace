@@ -1,0 +1,95 @@
+---
+title: "Probability and Statistics Homework 2"
+author: "Jamee Allen"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+##1. Website Activity
+```{r comment=NA, echo=FALSE}
+
+#barplot(c(.03,.09,.24,.27,.25,.09,.03),names.arg=c(0,1,2,3,4,5,6),xlab="Visits per Hour")
+probabilities <- c(.03,.09,.24,.27,.25,.09,.03)
+visitors <- c(0:6)
+mean <- sum(probabilities*visitors)
+variance <- (0-mean)**2*.03 + (1-mean)**2*.09 + (2-mean)**2*.24 + (3-mean)**2*.27 + (4-mean)**2*.25 + (5-mean)**2*.09 + (6-mean)**2*.03
+cat("The probability that the number of visitors in an hour is between 4 and 6 is", sum(probabilities[c(5:7)]),
+"\nThe mean is", mean,
+"\nThe variance is", (0-mean)**2*.03 + (1-mean)**2*.09 + (2-mean)**2*.24 + (3-mean)**2*.27 + (4-mean)**2*.25 + (5-mean)**2*.09 + (6-mean)**2*.03,
+"\nThe st dev is", sqrt(variance))
+```
+
+##2. College Students
+
+In order for X (number of 11 visitors ) to be binomially distributed, they must satisfy the following:  
+<br />
+-Each trial has to have 2 outcomes of interest which are complementary of each 
+other (this would be either college student or not college student)   
+<br />
+-N trials must be independent of each other meaning the prior and future values do not depend on the selected X Value   
+<br />
+-The probability of success must be constant   
+<br />
+-The number of trials must be fixed (N)  
+<br />
+```{r comment=NA, echo=FALSE}
+#2 College Students
+cat("Modeling X as a binomially distributed random variable, n=11, p=0.68,
+The probability that exactly 7/11 of the visitors are college students:",
+dbinom(7,11,.68),
+"\nThe expected number of college students is", (11*.68), "and the st dev is",
+(sqrt((11 * 0.68 * (1-0.68)))))
+
+```
+
+##3. Hugeretail.com
+```{r comment=NA, echo=FALSE}
+cat("The probability that 8 mobile users are selected is", ((factorial(20)/(factorial(8)*factorial(20-8)))*(.38**8)*(.62**12)),
+"\nThe probability that between 12 and 14 desktop users are selected is", dbinom(12,20,.62)+dbinom(13,20,.62)+dbinom(14,20,.62),
+"\nThe probability that 3 or fewer desktop users are selected is", dbinom(0,20,.62)+dbinom(1,20,.62)+dbinom(2,20,.62)+dbinom(3,20,.62))
+
+```
+##4. A Game of Chance
+```{r comment=NA, echo=FALSE}
+cat("The probability that my friend will say A is", (0.8*0.6)+(0.2*0.4),
+"\nThe probability that my friend will say B is", (0.2*0.6)+(0.8*0.4))
+
+```
+
+-Given my decision tree, I have some big decisions to make. I can either choose nothing and automatically win $500,000 or I can choose to move forward. If I move forward I can either guess A (overall winnings of $612,800), or I can guess B (overall winnings $419,200). Obviously if I went this route, I would go with A. I can also phone a friend. If my friend says A, my overall winnings are $864,480 and if my friend says B, my winnings are $738,640. After I multiplied these two values to their respective probabilities, I found that if I call my friend, my overall winnings are $814,144. So, now I have the choice between doing nothing ($500K), selecting A ($612K), or phoning a friend ($814K). Normally, this would be an easy choice to make; however, since the winning and losing values ($1M and $32K respectively) are such disparate numbers, I am more cautious. Since I won't actually win $612K or $814K (those are just weighted values), I would either win $1M or $32K. I don't want to win just $32K. I'm not feeling extremely confident with the probability that choosing A myself is 60%, so that would be the first option I forego. I consider the probability rates that my friend guesses correctly (80%), but I need to consider my confidence that the answer is either A or B and not C or D. Are these predictions actually accurate? I would like to say that I would choose the option that gives me $814K, but it won't actually give me that amount. Sure I might win $1M, but why would I choose the option that has $32K when I can just choose the path of least resistance and walk with a whopping $500K? So, therefore, in theory I should phone a friend but I'm a rebel and would choose to do nothing and walk with my $500K.
+
+##5. Healthcare Analytics
+```{r comment=NA, echo=FALSE}
+cat("The probability of identifying the person as having the disease is 0.94.
+The probability of predicting a false positive for at least 1 person is", dbinom(1,3,0.09)+dbinom(2,3,0.09)+dbinom(3,3,0.09),
+"\nThe probability of someone having the disease given the test rate is", (0.94*0.17)/((0.94*0.17)+(0.09*0.83)))
+```
+
+##6. Airline Analytics
+```{r comment=NA, echo=FALSE}
+Matrix11 <- c()
+for (i in 1:11) {
+  if (i < 11) {
+    Matrix11 <- rbind(Matrix11, c(dbinom(i, 11, 0.8), (i*1200), (dbinom(i, 11, 0.8)*(i*1200))))
+} else {
+    Matrix11 <- rbind(Matrix11, c(dbinom(i, 11, 0.8), (9000), (dbinom(i, 11, 0.8)*9000)))
+  }
+}
+
+Matrix10 <- c()
+for (i in 1:10) {
+    Matrix10 <- rbind(Matrix10, c(dbinom(i, 10, 0.8), (i*1200), (dbinom(i, 10, 0.8)*(i*1200))))
+}
+
+cat("The probability that at most 5 people show up for the flight is", dbinom(5,11,0.8)+dbinom(4,11,0.8)+dbinom(3,11,0.8)+dbinom(2,11,0.8)+dbinom(1,11,0.8)+dbinom(0,11,0.8),
+"\nThe probability that exactly 10 passengers show is", dbinom(10,11,0.8),
+"\nThe profit this airline would make from selling 11 tickets is $",sum(Matrix11[,3]),
+"\nThe profit this airline would make form selling 10 tickets is is $",sum(Matrix10[,3]))
+
+
+```
+
+The independence assumption assumes that "N trials must be independent of each other meaning the __prior and future values__ do not depend on the selected X Value."    
+<br />
+The fact that people often travel in groups *does*, in fact, affect the independence assumption about passenger behavior. Let's say, for example, that a mom and her child are traveling to Europe from New York City. Two tickets are sold seperately; however, they are in theory bought together. If the child gets sick and can no longer go to Europe, this directly affects the mother's 20% probability of not showing up to the flight, thus disproving the independence assumption for passenger behavior.
